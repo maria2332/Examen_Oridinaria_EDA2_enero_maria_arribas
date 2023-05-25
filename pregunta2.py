@@ -5,3 +5,65 @@ los PS, el Ataque, la Defensa, el Ataque Especial, la Defensa Especial y la Velo
 Experimentación (0,5 Puntos)
 Crea una lista con un numero arbitrario de objetos tipo Pokemon. Recorre los elementos de la lista, y prueba a ejecutar el método clasificacion de cada objeto que has creado.
 """
+
+class Pokemon:
+    def __init__(self, nombre, tipo):
+        self.nombre = nombre
+        self.tipo = tipo
+        print("¡Se ha creado exitosamente un Pokémon llamado", self.nombre, "de tipo", self.tipo, "!")
+
+    def clasificacion(self):
+        if self.tipo == 'Agua':
+            print("Clasificación del Pokémon", self.nombre, ":")
+            print("PS: 100")
+            print("Ataque: 80")
+            print("Defensa: 90")
+            print("Ataque Especial: 70")
+            print("Defensa Especial: 80")
+            print("Velocidad: 60")
+        elif self.tipo == 'Fuego':
+            print("Clasificación del Pokémon", self.nombre, ":")
+            print("PS: 90")
+            print("Ataque: 85")
+            print("Defensa: 70")
+            print("Ataque Especial: 90")
+            print("Defensa Especial: 75")
+            print("Velocidad: 80")
+        elif self.tipo == 'Tierra':
+            print("Clasificación del Pokémon", self.nombre, ":")
+            print("PS: 95")
+            print("Ataque: 100")
+            print("Defensa: 120")
+            print("Ataque Especial: 45")
+            print("Defensa Especial: 75")
+            print("Velocidad: 40")
+        elif self.tipo == 'Eléctrico':
+            print("Clasificación del Pokémon", self.nombre, ":")
+            print("PS: 80")
+            print("Ataque: 70")
+            print("Defensa: 60")
+            print("Ataque Especial: 110")
+            print("Defensa Especial: 80")
+            print("Velocidad: 100")
+        elif self.tipo == 'Normal':
+            print("Clasificación del Pokémon", self.nombre, ":")
+            print("PS: 70")
+            print("Ataque: 80")
+            print("Defensa: 70")
+            print("Ataque Especial: 80")
+            print("Defensa Especial: 70")
+            print("Velocidad: 90")
+        elif self.tipo == 'Fantasma':
+            print("Clasificación del Pokémon", self.nombre, ":")
+            print("PS: 60")
+            print("Ataque: 45")
+            print("Defensa: 50")
+            print("Ataque Especial: 115")
+            print("Defensa Especial: 100")
+            print("Velocidad: 75")
+        else:
+            print("Tipo de Pokémon no reconocido.")
+
+# Ejemplo de uso:
+pikachu = Pokemon("Pikachu", "Eléctrico")
+pikachu.clasificacion()
