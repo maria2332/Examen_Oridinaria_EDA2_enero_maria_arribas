@@ -3,64 +3,54 @@ Pasemos a trabajar en otro ejemplo para fortalecer aún más nuestro pensamiento
 Cuando hayas entendido el problema y tengas una solución en mente, desarrolla un algoritmo que permita hallar al menos una solución para distintas cantidades de Pokémon, y luego completa la siguiente tabla.
 """
 
-class PokeballNode:
-    def __init__(self, row, col):
-        self.row = row
-        self.col = col
-        self.next = None
+class Node:
+    def __init__(self, value, parent=None):
+        self.value = value
+        self.parent = parent
+        self.children = []
 
-def is_safe(pokeball, row, col):
-    # Verificar si es seguro colocar una PokéBola en la posición (row, col)
+    def add_child(self, child):
+        self.children.append(child)
 
-    # Verificar si hay alguna PokéBola en la misma columna o diagonal
-    current = pokeball
-    while current:
-        if current.col == col or abs(current.row - row) == abs(current.col - col):
-            return False
-        current = current.next
 
-    return True
+def solve_n_pokeballs(n):
+    def is_safe(row, col, node):
+        # Verificar si es seguro colocar un Pokémon en la posición (row, col)
+        while node:
+            if node.value == col or (node.value is not None and abs(node.value - col) == abs(row - len(node.children))):
+                return False
+            node = node.parent
+        return True
 
-def place_pokeballs(n):
-    solutions = []
-    stack = []
+    def build_solution(node):
+        # Construir la solución a partir del nodo final
+        solution = []
+        while node:
+            solution.insert(0, node.value)
+            node = node.parent
+        return solution
 
-    def backtrack(row):
-        # Caso base: se han colocado todas las PokéBolas
+    def backtrack(row, n, node, solutions):
         if row == n:
-            pokeball = stack[0]
-            solution = []
-            while pokeball:
-                solution.append(pokeball.row)
-                pokeball = pokeball.next
-            solutions.append(solution)
+            # Se llegó a una solución válida
+            solutions.append(build_solution(node))
             return
 
         for col in range(n):
-            if is_safe(stack[-1], row, col):
-                new_pokeball = PokeballNode(row, col)
-                stack.append(new_pokeball)
-                backtrack(row + 1)
-                stack.pop()
+            if is_safe(row, col, node):
+                new_node = Node(col, node)
+                node.add_child(new_node)
+                backtrack(row + 1, n, new_node, solutions)
 
-    # Iniciar la búsqueda desde la primera fila
-    for col in range(n):
-        first_pokeball = PokeballNode(0, col)
-        stack.append(first_pokeball)
-        backtrack(1)
-        stack.pop()
-
+    solutions = []
+    root = Node(None)
+    backtrack(0, n, root, solutions)
     return solutions
 
-# Calcular las soluciones para distintas cantidades de Pokémon
-table = []
-for n in range(1, 16):
-    solutions = place_pokeballs(n)
-    all_solutions = len(solutions)
-    one_solution = solutions[0] if solutions else "-"
-    table.append((n, all_solutions, one_solution))
 
-# Imprimir la tabla de resultados
-print("n-pokeballs\tSoluciones distintas\tTodas las soluciones\tUna solución")
-for n, all_solutions, one_solution in table:
-    print(f"{n}\t\t{all_solutions}\t\t\t\t{one_solution}")
+# Ejemplo de uso
+n = 4
+all_solutions = solve_n_pokeballs(n)
+unique_solution = all_solutions[0] if all_solutions else []
+print(f"Número de soluciones distintas para {n}-PokéBolas: {len(all_solutions)}")
+print(f"Una solución: {unique_solution}")
