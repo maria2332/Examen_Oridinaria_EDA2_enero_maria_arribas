@@ -3,54 +3,48 @@ Pasemos a trabajar en otro ejemplo para fortalecer aún más nuestro pensamiento
 Cuando hayas entendido el problema y tengas una solución en mente, desarrolla un algoritmo que permita hallar al menos una solución para distintas cantidades de Pokémon, y luego completa la siguiente tabla.
 """
 
-class Node:
-    def __init__(self, value, parent=None):
-        self.value = value
-        self.parent = parent
-        self.children = []
-
-    def add_child(self, child):
-        self.children.append(child)
-
+import random
 
 def solve_n_pokeballs(n):
-    def is_safe(row, col, node):
-        # Verificar si es seguro colocar un Pokémon en la posición (row, col)
-        while node:
-            if node.value == col or (node.value is not None and abs(node.value - col) == abs(row - len(node.children))):
+    solutions = []
+    all_solutions = []
+    board = [-1] * n
+
+    def is_safe(row, col):
+        for i in range(row):
+            if (
+                board[i] == col
+                or board[i] - i == col - row
+                or board[i] + i == col + row
+            ):
                 return False
-            node = node.parent
         return True
 
-    def build_solution(node):
-        # Construir la solución a partir del nodo final
-        solution = []
-        while node:
-            solution.insert(0, node.value)
-            node = node.parent
-        return solution
-
-    def backtrack(row, n, node, solutions):
+    def backtrack(row):
         if row == n:
-            # Se llegó a una solución válida
-            solutions.append(build_solution(node))
-            return
+            solution = board.copy()
+            solutions.append(solution)
+            all_solutions.append(solution)
+        else:
+            for col in range(n):
+                if is_safe(row, col):
+                    board[row] = col
+                    backtrack(row + 1)
+                    board[row] = -1
 
-        for col in range(n):
-            if is_safe(row, col, node):
-                new_node = Node(col, node)
-                node.add_child(new_node)
-                backtrack(row + 1, n, new_node, solutions)
+    backtrack(0)
 
-    solutions = []
-    root = Node(None)
-    backtrack(0, n, root, solutions)
-    return solutions
+    num_solutions = len(solutions)
+    num_all_solutions = len(all_solutions)
 
+    if num_solutions > 0:
+        random_solution = random.choice(solutions)
+    else:
+        random_solution = []
 
-# Ejemplo de uso
-n = 4
-all_solutions = solve_n_pokeballs(n)
-unique_solution = all_solutions[0] if all_solutions else []
-print(f"Número de soluciones distintas para {n}-PokéBolas: {len(all_solutions)}")
-print(f"Una solución: {unique_solution}")
+    return num_solutions, num_all_solutions, random_solution
+
+print("n-PokéBolas\tSoluciones distintas\tTodas las soluciones\tUna solución")
+for n in range(1, 16):
+    num_solutions, num_all_solutions, random_solution = solve_n_pokeballs(n)
+    print(f"{n}\t\t{num_solutions}\t\t\t{num_all_solutions}\t\t\t\t{random_solution}")
