@@ -81,3 +81,56 @@ pokemons = [
 # Recorrer la lista y ejecutar el método clasificacion() de cada Pokémon
 for pokemon in pokemons:
     pokemon.clasificacion()
+
+
+# Tests
+
+def test_clasificacion_agua():
+    pikachu = Pokemon("Pikachu", "Agua")
+    pikachu.clasificacion()
+
+def test_clasificacion_fuego():
+    charizard = Pokemon("Charizard", "Fuego")
+    charizard.clasificacion()
+
+def test_clasificacion_tierra():
+    sandslash = Pokemon("Sandslash", "Tierra")
+    sandslash.clasificacion()
+
+def test_clasificacion_electrico():
+    pikachu = Pokemon("Pikachu", "Eléctrico")
+    pikachu.clasificacion()
+
+def test_clasificacion_normal():
+    normal_pokemon = Pokemon("Normalmon", "Normal")
+    normal_pokemon.clasificacion()
+
+def test_clasificacion_fantasma():
+    gengar = Pokemon("Gengar", "Fantasma")
+    gengar.clasificacion()
+
+def test_clasificacion_desconocido():
+    unknown_pokemon = Pokemon("Unknownmon", "Desconocido")
+    unknown_pokemon.clasificacion()
+
+def test_clasificacion_lista_pokemons():
+    pokemons = [
+        Pokemon("Pikachu", "Eléctrico"),
+        Pokemon("Charizard", "Fuego"),
+        Pokemon("Blastoise", "Agua"),
+        Pokemon("Sandslash", "Tierra"),
+        Pokemon("Gengar", "Fantasma")
+    ]
+
+    for pokemon in pokemons:
+        pokemon.clasificacion()
+
+# Ejecutar los tests
+test_clasificacion_agua()
+test_clasificacion_fuego()
+test_clasificacion_tierra()
+test_clasificacion_electrico()
+test_clasificacion_normal()
+test_clasificacion_fantasma()
+test_clasificacion_desconocido()
+test_clasificacion_lista_pokemons()
