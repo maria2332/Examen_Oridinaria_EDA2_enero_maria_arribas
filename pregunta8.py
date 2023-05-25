@@ -53,7 +53,7 @@ def generate_huffman_codes(root):
 def compress_message(message, codes):
     compressed = ''
     for symbol in message:
-        compressed += codes[symbol]
+        compressed += codes.get(symbol, '')  # Usar get() para manejar símbolos no presentes en los códigos
     return compressed
 
 def decompress_message(compressed, root):
@@ -84,7 +84,8 @@ frequencies = {
     'D': 0.05,
     'Z': 0.04,
     'K': 0.03,
-    ',': 0.03
+    ',': 0.03,
+    ' ': 0.02  # Agregar una entrada para el espacio en blanco
 }
 
 # Construir el árbol de Huffman
