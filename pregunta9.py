@@ -8,3 +8,81 @@ Ahora que tienes una lista de tareas y sus respectivas duraciones, necesitas dec
 Determinar la secuencia óptima de tareas. Recuerda que estos algoritmos son útiles para encontrar el árbol de expansión mínima en un grafo, lo que en este caso representaría la secuencia de tareas con el tiempo total mínimo.
 ¿Cuál algoritmo elegirías en este caso y por qué? Desarrolla y describe el proceso que utilizarías para aplicar este algoritmo al conjunto de tareas.
 """
+
+class Task:
+    def __init__(self, name, duration):
+        self.name = name
+        self.duration = duration
+        self.dependencies = []
+
+    def add_dependency(self, task):
+        self.dependencies.append(task)
+
+
+# Crear instancias de las tareas
+A = Task('A', 20)
+B = Task('B', 5)
+C = Task('C', 40)
+D = Task('D', 10)
+E = Task('E', 5)
+F = Task('F', 10)
+G = Task('G', 20)
+H = Task('H', 25)
+I = Task('I', 35)
+J = Task('J', 25)
+K = Task('K', 15)
+L = Task('L', 5)
+M = Task('M', 25)
+
+# Definir las dependencias entre las tareas
+A.add_dependency(D)
+A.add_dependency(E)
+
+B.add_dependency(C)
+B.add_dependency(H)
+
+C.add_dependency(G)
+
+D.add_dependency(F)
+
+E.add_dependency(F)
+E.add_dependency(I)
+
+G.add_dependency(H)
+
+I.add_dependency(J)
+
+J.add_dependency(K)
+
+K.add_dependency(L)
+
+L.add_dependency(M)
+
+# Función para calcular la duración mínima de la misión
+def calcular_duracion_minima():
+    # Inicializar duraciones mínimas
+    duraciones_minimas = {task: 0 for task in [A, B, C, D, E, F, G, H, I, J, K, L, M]}
+
+    # Recorrer las tareas en orden topológico
+    for task in [A, B, C, D, E, F, G, H, I, J, K, L, M]:
+        for dependency in task.dependencies:
+            duraciones_minimas[task] = max(duraciones_minimas[task], duraciones_minimas[dependency] + dependency.duration)
+
+    # Calcular duración mínima total
+    duracion_minima_total = max(duraciones_minimas.values())
+
+    return duracion_minima_total
+
+# Calcular duración mínima de la misión
+duracion_minima = calcular_duracion_minima()
+
+print("Duración mínima de la misión:", duracion_minima)
+
+# Verificar si el líder llega a facturar a tiempo dentro de los 100 minutos disponibles
+llega_a_facturar = duracion_minima <= 100
+
+if llega_a_facturar:
+    print("El líder llega a facturar a tiempo.")
+else:
+    print("El líder no llega a facturar a tiempo.")
+
