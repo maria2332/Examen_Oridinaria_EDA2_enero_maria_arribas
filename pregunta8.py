@@ -18,87 +18,66 @@ K	0.03
 ,	0.03
 """
 
-class HuffmanNode:
-    def __init__(self, symbol, freq):
+class Node:
+    def __init__(self, symbol=None, frequency=None):
         self.symbol = symbol
-        self.freq = freq
+        self.frequency = frequency
         self.left = None
         self.right = None
 
-def build_huffman_tree(frequencies):
-    nodes = [HuffmanNode(symbol, freq) for symbol, freq in frequencies.items()]
+def get_nodes(frequencies):
+    return sorted([Node(symbol, frequency) for symbol, frequency in frequencies.items()], key=lambda x: x.frequency)
+
+def huffman_tree(nodes):
     while len(nodes) > 1:
-        nodes = sorted(nodes, key=lambda x: x.freq)
+        nodes = sorted(nodes, key=lambda x: x.frequency)
         left = nodes.pop(0)
         right = nodes.pop(0)
-        parent = HuffmanNode(None, left.freq + right.freq)
-        parent.left = left
-        parent.right = right
-        nodes.append(parent)
+        inner = Node(frequency=left.frequency + right.frequency)
+        inner.left = left
+        inner.right = right
+        nodes.append(inner)
     return nodes[0]
 
-def generate_huffman_codes(root):
-    codes = {}
+def huffman_encoding(node, prefix='', code={}):
+    if node is None:
+        return
+    if node.symbol is not None:
+        code[node.symbol] = prefix
+    huffman_encoding(node.left, prefix + '0', code)
+    huffman_encoding(node.right, prefix + '1', code)
+    return code
 
-    def traverse(node, code):
-        if node.symbol:
-            codes[node.symbol] = code
-        else:
-            traverse(node.left, code + '0')
-            traverse(node.right, code + '1')
+def compress(message, code):
+    return ''.join([code[symbol] for symbol in message])
 
-    traverse(root, '')
-    return codes
-
-def compress_message(message, codes):
-    compressed = ''
-    for symbol in message:
-        compressed += codes.get(symbol, '')  # Usar get() para manejar símbolos no presentes en los códigos
-    return compressed
-
-def decompress_message(compressed, root):
-    decompressed = ''
-    current_node = root
+def decompress(compressed, node):
+    message = ''
+    current = node
     for bit in compressed:
         if bit == '0':
-            current_node = current_node.left
+            current = current.left
         else:
-            current_node = current_node.right
-        if current_node.symbol:
-            decompressed += current_node.symbol
-            current_node = root
-    return decompressed
+            current = current.right
+        if current.symbol is not None:
+            message += current.symbol
+            current = node
+    return message
 
-# Tabla de frecuencias
-frequencies = {
-    'T': 0.15,
-    'O': 0.15,
-    'A': 0.12,
-    'E': 0.10,
-    'H': 0.09,
-    'S': 0.07,
-    'P': 0.07,
-    'M': 0.07,
-    'N': 0.06,
-    'C': 0.06,
-    'D': 0.05,
-    'Z': 0.04,
-    'K': 0.03,
-    ',': 0.03,
-    ' ': 0.02  # Agregar una entrada para el espacio en blanco
-}
+# Diccionario de frecuencias
+frequencies = {"T":0.15, "O":0.15, "A":0.12, "E": 0.10, "H":0.09, "S": 0.07, "P": 0.07, "M": 0.07, "N": 0.06, "C": 0.06, "D":0.05, "Z":0.04, "K": 0.03, " ": 0.03}
+# Generación del árbol de Huffman
+nodes = get_nodes(frequencies)
+huff_tree = huffman_tree(nodes)
+huff_code = huffman_encoding(huff_tree)
 
-# Construir el árbol de Huffman
-root = build_huffman_tree(frequencies)
+# Mensaje a comprimir
+message = 'HAZTE CON TODOS POKEMON'
 
-# Generar códigos de compresión
-codes = generate_huffman_codes(root)
+# Compresión y descompresión
+compressed = compress(message, huff_code)
+decompressed = decompress(compressed, huff_tree)
 
-# Comprimir un mensaje
-message = "TOAST, TOAST!"
-compressed_message = compress_message(message, codes)
-print("Mensaje comprimido:", compressed_message)
-
-# Descomprimir un mensaje
-decompressed_message = decompress_message(compressed_message, root)
-print("Mensaje descomprimido:", decompressed_message)
+print(f'Mensaje original: {message}')
+print(f'Mensaje comprimido: {compressed}')
+print(f'Mensaje descomprimido: {decompressed}')
