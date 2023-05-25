@@ -64,23 +64,6 @@ class Pokemon:
         else:
             print("Tipo de Pokémon no reconocido.")
 
-# Ejemplo de uso:
-pikachu = Pokemon("Pikachu", "Eléctrico")
-pikachu.clasificacion()
-
-
-# Crear una lista de Pokémon
-pokemons = [
-    Pokemon("Pikachu", "Eléctrico"),
-    Pokemon("Charizard", "Fuego"),
-    Pokemon("Blastoise", "Agua"),
-    Pokemon("Sandslash", "Tierra"),
-    Pokemon("Gengar", "Fantasma")
-]
-
-# Recorrer la lista y ejecutar el método clasificacion() de cada Pokémon
-for pokemon in pokemons:
-    pokemon.clasificacion()
 
 
 # Tests
