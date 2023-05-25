@@ -64,11 +64,3 @@ for n in range(1, 16):
 print("n-pokeballs\tSoluciones distintas\tTodas las soluciones\tUna solución")
 for n, all_solutions, one_solution in table:
     print(f"{n}\t\t{all_solutions}\t\t\t\t{one_solution}")
-
-# Imprimir la solución para n = 8
-print("\nSolución para n = 8")
-solutions = place_pokeballs(8)
-for solution in solutions:
-    print(solution)
-
-    
