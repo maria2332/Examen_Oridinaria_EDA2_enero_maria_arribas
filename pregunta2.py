@@ -67,53 +67,99 @@ class Pokemon:
 
 
 # Tests
+import unittest
 
-def test_clasificacion_agua():
-    pikachu = Pokemon("Pikachu", "Agua")
-    pikachu.clasificacion()
+class TestPokemon(unittest.TestCase):
+    def test_clasificacion_agua(self):
+        pokemon = Pokemon("Squirtle", "Agua")
+        expected_output = """Clasificación del Pokémon Squirtle :
+PS: 100
+Ataque: 80
+Defensa: 90
+Ataque Especial: 70
+Defensa Especial: 80
+Velocidad: 60
+"""
+        with self.assertLogs(level="INFO") as log:
+            pokemon.clasificacion()
+            self.assertEqual(log.output, [expected_output])
 
-def test_clasificacion_fuego():
-    charizard = Pokemon("Charizard", "Fuego")
-    charizard.clasificacion()
+    def test_clasificacion_fuego(self):
+        pokemon = Pokemon("Charmander", "Fuego")
+        expected_output = """Clasificación del Pokémon Charmander :
+PS: 90
+Ataque: 85
+Defensa: 70
+Ataque Especial: 90
+Defensa Especial: 75
+Velocidad: 80
+"""
+        with self.assertLogs(level="INFO") as log:
+            pokemon.clasificacion()
+            self.assertEqual(log.output, [expected_output])
 
-def test_clasificacion_tierra():
-    sandslash = Pokemon("Sandslash", "Tierra")
-    sandslash.clasificacion()
+    def test_clasificacion_tierra(self):
+        pokemon = Pokemon("Sandshrew", "Tierra")
+        expected_output = """Clasificación del Pokémon Sandshrew :
+PS: 95
+Ataque: 100
+Defensa: 120
+Ataque Especial: 45
+Defensa Especial: 75
+Velocidad: 40
+"""
+        with self.assertLogs(level="INFO") as log:
+            pokemon.clasificacion()
+            self.assertEqual(log.output, [expected_output])
 
-def test_clasificacion_electrico():
-    pikachu = Pokemon("Pikachu", "Eléctrico")
-    pikachu.clasificacion()
+    def test_clasificacion_electrico(self):
+        pokemon = Pokemon("Pikachu", "Eléctrico")
+        expected_output = """Clasificación del Pokémon Pikachu :
+PS: 80
+Ataque: 70
+Defensa: 60
+Ataque Especial: 110
+Defensa Especial: 80
+Velocidad: 100
+"""
+        with self.assertLogs(level="INFO") as log:
+            pokemon.clasificacion()
+            self.assertEqual(log.output, [expected_output])
 
-def test_clasificacion_normal():
-    normal_pokemon = Pokemon("Normalmon", "Normal")
-    normal_pokemon.clasificacion()
+    def test_clasificacion_normal(self):
+        pokemon = Pokemon("Snorlax", "Normal")
+        expected_output = """Clasificación del Pokémon Snorlax :
+PS: 70
+Ataque: 80
+Defensa: 70
+Ataque Especial: 80
+Defensa Especial: 70
+Velocidad: 90
+"""
+        with self.assertLogs(level="INFO") as log:
+            pokemon.clasificacion()
+            self.assertEqual(log.output, [expected_output])
 
-def test_clasificacion_fantasma():
-    gengar = Pokemon("Gengar", "Fantasma")
-    gengar.clasificacion()
+    def test_clasificacion_fantasma(self):
+        pokemon = Pokemon("Gengar", "Fantasma")
+        expected_output = """Clasificación del Pokémon Gengar :
+PS: 60
+Ataque: 45
+Defensa: 50
+Ataque Especial: 115
+Defensa Especial: 100
+Velocidad: 75
+"""
+        with self.assertLogs(level="INFO") as log:
+            pokemon.clasificacion()
+            self.assertEqual(log.output, [expected_output])
 
-def test_clasificacion_desconocido():
-    unknown_pokemon = Pokemon("Unknownmon", "Desconocido")
-    unknown_pokemon.clasificacion()
+    def test_clasificacion_desconocido(self):
+        pokemon = Pokemon("Unknown", "Desconocido")
+        expected_output = "Tipo de Pokémon no reconocido."
+        with self.assertLogs(level="INFO") as log:
+            pokemon.clasificacion()
+            self.assertEqual(log.output, [expected_output])
 
-def test_clasificacion_lista_pokemons():
-    pokemons = [
-        Pokemon("Pikachu", "Eléctrico"),
-        Pokemon("Charizard", "Fuego"),
-        Pokemon("Blastoise", "Agua"),
-        Pokemon("Sandslash", "Tierra"),
-        Pokemon("Gengar", "Fantasma")
-    ]
-
-    for pokemon in pokemons:
-        pokemon.clasificacion()
-
-# Ejecutar los tests
-test_clasificacion_agua()
-test_clasificacion_fuego()
-test_clasificacion_tierra()
-test_clasificacion_electrico()
-test_clasificacion_normal()
-test_clasificacion_fantasma()
-test_clasificacion_desconocido()
-test_clasificacion_lista_pokemons()
+if __name__ == "__main__":
+    unittest.main()

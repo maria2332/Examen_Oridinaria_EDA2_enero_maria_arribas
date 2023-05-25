@@ -68,3 +68,4 @@ for movimientos in cantidades_movimientos:
     posibilidades = calcular_posibilidades_teletransporte(movimientos)
     print(f"Cantidad de movimientos: {movimientos}")
     print(f"Posibilidades válidas: {posibilidades}")
+    print(f"Total de posibilidades: {sum(posibilidades)}")
