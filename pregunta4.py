@@ -78,6 +78,6 @@ class TestPokeball(unittest.TestCase):
         pokeball.precio = 350
         self.assertEqual(pokeball.precio, 350)
 
-# Ejecutar los tests
-unittest.main()
+if __name__ == "__main__":
+    unittest.main()
 
