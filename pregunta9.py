@@ -86,3 +86,36 @@ if llega_a_facturar:
 else:
     print("El líder no llega a facturar a tiempo.")
 
+
+
+# Función para encontrar la secuencia óptima de tareas utilizando el algoritmo de Dijkstra
+def encontrar_secuencia_optima(tareas):
+    # Crear una lista de nodos no visitados y establecer la distancia inicial de todos los nodos excepto el nodo fuente en infinito
+    nodos_no_visitados = tareas.copy()
+    distancias = {tarea: float('inf') for tarea in tareas}
+    distancias[tareas[0]] = 0
+
+    while nodos_no_visitados:
+        # Seleccionar el nodo con la distancia más corta entre los nodos no visitados
+        nodo_actual = min(nodos_no_visitados, key=lambda x: distancias[x])
+
+        # Marcar el nodo actual como visitado
+        nodos_no_visitados.remove(nodo_actual)
+
+        # Actualizar las distancias de los nodos adyacentes
+        for tarea_siguiente in nodo_actual.dependencies:
+            nueva_distancia = distancias[nodo_actual] + tarea_siguiente.duration
+            if nueva_distancia < distancias[tarea_siguiente]:
+                distancias[tarea_siguiente] = nueva_distancia
+
+    # Reconstruir la secuencia óptima de tareas
+    secuencia_optima = sorted(distancias, key=lambda x: distancias[x])
+
+    return secuencia_optima
+
+# Obtener la secuencia óptima de tareas
+secuencia_optima = encontrar_secuencia_optima([A, B, C, D, E, F, G, H, I, J, K, L, M])
+
+# Imprimir la secuencia óptima de tareas
+for tarea in secuencia_optima:
+    print(tarea.name)
