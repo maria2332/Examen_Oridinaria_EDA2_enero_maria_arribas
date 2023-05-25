@@ -53,28 +53,31 @@ print("Precio modificado de la Ultraball:", pokeball2.precio)
 
 # Test
 
-def test_pokeball_str():
-    pokeball = Pokeball(100, "Superball", 200, "10/05/2023")
-    expected_output = "Información de la Pokeball:\nNombre: Superball\nPeso: 100 gramos\nPrecio: $200\nFecha de fabricación: 10/05/2023"
-    assert str(pokeball) == expected_output
+import unittest
+from datetime import datetime
 
-def test_pokeball_sort():
-    pokeball1 = Pokeball(100, "Superball", 200, datetime(2023, 5, 10))
-    pokeball2 = Pokeball(80, "Ultraball", 300, datetime(2023, 4, 20))
-    pokeball3 = Pokeball(120, "Masterball", 500, datetime(2023, 6, 5))
+class TestPokeball(unittest.TestCase):
+    def test_pokeball_str(self):
+        pokeball = Pokeball(100, "Superball", 200, "10/05/2023")
+        expected_output = "Información de la Pokeball:\nNombre: Superball\nPeso: 100 gramos\nPrecio: $200\nFecha de fabricación: 10/05/2023"
+        self.assertEqual(str(pokeball), expected_output)
 
-    pokeballs = [pokeball1, pokeball2, pokeball3]
-    expected_order = [pokeball2, pokeball1, pokeball3]
+    def test_pokeball_sort(self):
+        pokeball1 = Pokeball(100, "Superball", 200, datetime(2023, 5, 10))
+        pokeball2 = Pokeball(80, "Ultraball", 300, datetime(2023, 4, 20))
+        pokeball3 = Pokeball(120, "Masterball", 500, datetime(2023, 6, 5))
 
-    sorted_pokeballs = sorted(pokeballs, key=lambda x: x.fecha_fabricacion)
-    assert sorted_pokeballs == expected_order
+        pokeballs = [pokeball1, pokeball2, pokeball3]
+        expected_order = [pokeball2, pokeball1, pokeball3]
 
-def test_modify_pokeball_price():
-    pokeball = Pokeball(80, "Ultraball", 300, datetime(2023, 4, 20))
-    pokeball.precio = 350
-    assert pokeball.precio == 350
+        sorted_pokeballs = sorted(pokeballs, key=lambda x: x.fecha_fabricacion)
+        self.assertEqual(sorted_pokeballs, expected_order)
+
+    def test_modify_pokeball_price(self):
+        pokeball = Pokeball(80, "Ultraball", 300, datetime(2023, 4, 20))
+        pokeball.precio = 350
+        self.assertEqual(pokeball.precio, 350)
 
 # Ejecutar los tests
-test_pokeball_str()
-test_pokeball_sort()
-test_modify_pokeball_price()
+unittest.main()
+
